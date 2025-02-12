@@ -32,8 +32,6 @@ def download_package_seg():
 		logger.info('Extracting package-seg dataset')
 		with zipfile.ZipFile('data/package_seg.zip', 'r') as zip_ref:
 			zip_ref.extractall('data/package_seg')
-		logger.debug('Cleaning up')
-		os.unlink('data/package_seg.zip')
 	except Exception as e:
 		print(e)
 		exit(1)
@@ -41,6 +39,10 @@ def download_package_seg():
 		print(e)
 		print('Failed to download package-seg dataset')
 		exit(1)
+  
+def cleanup():
+	if os.path.exists('data/package_seg.zip'):
+		os.remove('data/package_seg.zip')
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Download datasets')
@@ -51,8 +53,13 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 
 	if args.verbose:
-		logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+		logging.basicConfig(level=logging.INFO, format='%(asctime)s\t%(levelname)s: %(message)s')
+	else:
+		logging.basicConfig(level=logging.WARNING, format='%(message)s')
 
 	pre_download()
+ 
 	if args.package_seg:
 		download_package_seg()
+  
+	cleanup()

@@ -1,5 +1,2 @@
 venv
-data/package_seg/test
-data/package_seg/train
-data/package_seg/valid
-data/package-seg.zip
+data
